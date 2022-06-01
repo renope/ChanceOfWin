@@ -26,11 +26,13 @@ abstract contract ShareFees is Tickets, Ownable {
         _pay(company, paidAmount * 20 / 25);
     }
 
-    mapping(address => address) referrals;
-
-    function _shareCommissions(uint256 amount, address referral) internal returns(uint256 rest){
+    function _shareCommissions(uint256 amount, address referral) internal{
         uint256 refCount;
-        
+        do{refCount += 1;} while(l.referrals[referral] != address(0) && refCount < 5);
+        for(uint256 index; index < refCount; index++) {
+            _pay(referral, amount / refCount);
+            referral = l.referrals[referral];
+        }
     }
 
     function _pay(address receiver, uint256 amount) internal {

@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
-import "./Prices.sol";
+import "./PriceFeed.sol";
 import "./Tickets.sol";
 import "./ShareFees.sol";
 
-contract Lottery is Tickets, Prices, ShareFees {
+contract Lottery is Tickets, PriceFeed, ShareFees {
 
     function buyTicket(uint16 numberOfTickets) public payable {
         address ticketBuyer = msg.sender;

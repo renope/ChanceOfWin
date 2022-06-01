@@ -25,6 +25,11 @@ abstract contract ShareFees is Ownable {
         _pay(company, paidAmount * 20 / 25);
     }
 
+    mapping(address => address) referrals;
+
+    function _shareCommissions(uint256 amount, address referral) internal returns(uint256 rest){
+    }
+
     function _pay(address receiver, uint256 amount) internal {
         payable(receiver).transfer(amount);
     }

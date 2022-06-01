@@ -21,12 +21,13 @@ contract Lottery is Ownable, ShareFees {
     function buyTicket(uint16 numberOfTickets) public payable {
         uint256 paidAmount = msg.value;
         require(paidAmount >= numberOfTickets * ticketPriceInWei() * 95 / 100, "Lottery: insufficient fee");
-        _shareFees(paidAmount * 30 / 100);
+        _shareFees30(paidAmount * 30 / 100);
     }
 
     function buyTicket(uint16 numberOfTickets, address referral) public payable {
         uint256 paidAmount = msg.value;
         require(paidAmount >= numberOfTickets * ticketPriceInWei() * 95 / 100, "Lottery: insufficient fee");
-        _shareFees(paidAmount * 25 / 100);
+        _shareCommissions(paidAmount * 5 / 100, referral);
+        _shareFees25(paidAmount * 25 / 100);
     }
 }

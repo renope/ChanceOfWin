@@ -7,11 +7,13 @@ import "./Tickets.sol";
 
 contract Lottery is PriceFeed, ShareFees, Tickets {
 
-    function buyTicket(uint16 numberOfTickets) public payable {
+    event BuyTicket(address indexed buyer, uint256 numberOfTickets, uint256 paidAmount);
+
+    function buyTicket(uint256 numberOfTickets) public payable {
         buyTicket(numberOfTickets, address(0));
     }
 
-    function buyTicket(uint16 numberOfTickets, address referral) public payable {
+    function buyTicket(uint256 numberOfTickets, address referral) public payable {
         address ticketBuyer = msg.sender;
         uint256 paidAmount = msg.value;
         _checkPaidAmount(paidAmount, numberOfTickets);

@@ -2,10 +2,11 @@
 
 pragma solidity ^0.8.7;
 
+import "@openzeppelin/contracts/access/Ownable.sol";
 import '@openzeppelin/contracts/utils/structs/EnumerableMap.sol';
 import '@openzeppelin/contracts/utils/structs/EnumerableSet.sol';
 
-contract Tickets {
+contract Tickets is Ownable {
     using EnumerableSet for EnumerableSet.UintSet;
     using EnumerableMap for EnumerableMap.UintToAddressMap;
 
@@ -18,6 +19,16 @@ contract Tickets {
     }
 
     Layout l;
+
+    uint256 numberOfWinners;
+    function setNumberOfWinners(uint256 newNum) public onlyOwner {
+        numberOfWinners = newNum;
+    }
+
+    constructor() {
+        numberOfWinners = 10;
+    }
+
 
     function winners() public view returns(address[] memory) {
         return l.winners;

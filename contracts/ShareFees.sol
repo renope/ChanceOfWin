@@ -3,17 +3,17 @@ pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-abstract contract ShareFees is Ownable {
+abstract contract Payment is Ownable {
 
     address public team;
     function setTeamAddr(address newAddr) public {
-        require(msg.sender == team, "ShareFees: you have not access");
+        require(msg.sender == team, "Payment: you have not access");
         team = newAddr;
     }
 
     address public company;
     function setCompanyAddr(address newAddr) public {
-        require(msg.sender == company, "ShareFees: you have not access");
+        require(msg.sender == company, "Payment: you have not access");
         company = newAddr;
     }
 

@@ -2,10 +2,10 @@
 pragma solidity ^0.8.7;
 
 import "./PriceFeed.sol";
-import "./ShareFees.sol";
+import "./Payment.sol";
 import "./Tickets.sol";
 
-contract Lottery is PriceFeed, ShareFees, Tickets {
+contract Lottery is PriceFeed, Payment, Tickets {
     using EnumerableSet for EnumerableSet.AddressSet;
     using EnumerableMap for EnumerableMap.UintToAddressMap;
 

@@ -12,6 +12,7 @@ contract Tickets {
     struct Layout {
         EnumerableMap.UintToAddressMap ticketOwners;
         mapping(address => EnumerableSet.UintSet) holderTickets;
+        mapping(address => address) referrals;
     }
 
     Layout l;

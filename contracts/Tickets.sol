@@ -78,6 +78,8 @@ contract Tickets is Ownable {
 
     function _randSelectWinners() internal {
         uint256 supply = totalSupply();
+        require(supply >= numberOfWinners,
+            "Tickets: number of tickets has not been reached the qourum");
         uint256 randId;
         address winner;
         while(_winners.length() < numberOfWinners) {

@@ -1,37 +1,29 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "./Prices.sol";
 import "./Tickets.sol";
-import "./PriceFeed.sol";
 import "./ShareFees.sol";
 
-contract Lottery is Tickets, Ownable, ShareFees {
-
-    uint256 public ticketPriceInCents;
-    function setTicketPriceInCents(uint256 _ticketPriceInCents) public onlyOwner {
-        ticketPriceInCents = _ticketPriceInCents;
-    }
-
-    function ticketPriceInWei() public view returns(uint256) {
-        return USDPriceFeed.USD_MATIC_18() * ticketPriceInCents / 100;
-    }
+contract Lottery is Tickets, Prices, ShareFees {
 
     function buyTicket(uint16 numberOfTickets) public payable {
+        address ticketBuyer = msg.sender;
         uint256 paidAmount = msg.value;
-        require(paidAmount >= numberOfTickets * ticketPriceInWei() * 95 / 100, "Lottery: insufficient fee");
-        _register(msg.sender);
+        _checkPaidAmount(paidAmount, numberOfTickets);
+        _register(ticketBuyer);
         _shareFees(paidAmount * 30 / 100);
         _collectInPrize(paidAmount * 70 / 100);
-        _purchaseTicket(msg.sender, numberOfTickets);
+        _purchaseTicket(ticketBuyer, numberOfTickets);
     }
 
     function buyTicket(uint16 numberOfTickets, address referral) public payable {
+        address ticketBuyer = msg.sender;
         uint256 paidAmount = msg.value;
-        require(paidAmount >= numberOfTickets * ticketPriceInWei() * 95 / 100, "Lottery: insufficient fee");
-        _register(msg.sender, referral);
+        _checkPaidAmount(paidAmount, numberOfTickets);
+        _register(ticketBuyer, referral);
         _shareFees(paidAmount * 30 / 100);
         _collectInPrize(paidAmount * 70 / 100);
-        _purchaseTicket(msg.sender, numberOfTickets);
+        _purchaseTicket(ticketBuyer, numberOfTickets);
     }
 }

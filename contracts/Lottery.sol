@@ -25,7 +25,7 @@ contract Lottery is Tickets, Ownable, ShareFees {
     function buyTicket(uint16 numberOfTickets) public payable {
         uint256 paidAmount = msg.value;
         require(paidAmount >= numberOfTickets * ticketPriceInWei() * 95 / 100, "Lottery: insufficient fee");
-        if(referrals[msg.sender] != 0) {
+        if(referrals[msg.sender] != address(0)) {
             _shareCommissions(paidAmount * 5 / 100, referrals[msg.sender]);
             _shareFees25(paidAmount * 25 / 100);
         } else {

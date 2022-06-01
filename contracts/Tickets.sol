@@ -5,7 +5,7 @@ pragma solidity ^0.8.7;
 import '@openzeppelin/contracts/utils/structs/EnumerableMap.sol';
 import '@openzeppelin/contracts/utils/structs/EnumerableSet.sol';
 
-contract ERC721BaseStorage {
+contract Tickets {
     using EnumerableSet for EnumerableSet.UintSet;
     using EnumerableMap for EnumerableMap.UintToAddressMap;
 

@@ -10,6 +10,13 @@ contract Tickets is Ownable {
     using EnumerableSet for EnumerableSet.AddressSet;
     using EnumerableMap for EnumerableMap.UintToAddressMap;
 
+    EnumerableSet.AddressSet _winners;
+    
+    uint256 numberOfWinners;
+    function setNumberOfWinners(uint256 newNum) public onlyOwner {
+        numberOfWinners = newNum;
+    }
+
     struct Layout {
         uint256 totalPrize;
         uint256 totalSupply;
@@ -18,13 +25,6 @@ contract Tickets is Ownable {
     }
 
     Layout l;
-
-    EnumerableSet.AddressSet _winners;
-    
-    uint256 numberOfWinners;
-    function setNumberOfWinners(uint256 newNum) public onlyOwner {
-        numberOfWinners = newNum;
-    }
 
     constructor() {
         numberOfWinners = 10;
@@ -73,6 +73,24 @@ contract Tickets is Ownable {
         }
         l.memberSupply[member] += _numberOfTickets;
         l.totalSupply += _numberOfTickets;
+    }
+
+
+    function _randSelectWinners() internal {
+        uint256 supply = totalSupply();
+        uint256 randId;
+        address winner;
+        while(_winners.length() < numberOfWinners) {
+            randId = _randomUint256(randId) % supply;
+            winner = ownerOf(randId);
+            l.ticketToOwner.remove(randId);
+            supply--;
+            _winners.add(winner);
+        }
+    }
+
+    function _randomUint256(uint256 nonce) internal view returns(uint256) {
+        return uint256(keccak256(abi.encodePacked(block.difficulty, block.timestamp, nonce)));
     }
 
     function _reset() internal {

@@ -65,6 +65,13 @@ abstract contract ShareFees is Ownable {
         }
     }
 
+    function _sharePrizes(address[] memory winners_, uint256 amount) internal {
+        uint256 _numberOfwinners = winners_.length;
+        for(uint256 index; index < _numberOfwinners; index++) {
+            _pay(winners_[index], amount / _numberOfwinners);
+        }
+    }
+
     function _pay(address receiver, uint256 amount) internal {
         payable(receiver).transfer(amount);
     }

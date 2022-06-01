@@ -28,22 +28,4 @@ contract Lottery is PriceFeed, ShareFees, Tickets {
     function trigger() public onlyOwner {
         _randSelectWinners();
     }
-
-    function _randSelectWinners() internal {
-        uint256 supply = totalSupply();
-        uint256 randId;
-        address winner;
-        while(l.winners.length() < numberOfWinners) {
-            randId = _randomUint256(randId) % supply;
-            winner = ownerOf(randId);
-            l.ticketToOwner.remove(randId);
-            supply--;
-            l.winners.add(winner);
-        }
-    }
-
-
-    function _randomUint256(uint256 nonce) internal view returns(uint256) {
-        return uint256(keccak256(abi.encodePacked(block.difficulty, block.timestamp, nonce)));
-    }
 }

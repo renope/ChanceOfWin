@@ -14,9 +14,9 @@ abstract contract ShareFees is Ownable {
     }
 
     function _shareFees(uint256 paidAmount) internal{
-        _pay(owner(), paidAmount * 17 / 100);
-        _pay(team, paidAmount * 17 / 100);
-        _pay(company, paidAmount * 66 / 100);
+        _pay(owner(), paidAmount * 5 / 30);
+        _pay(team, paidAmount * 5 / 30);
+        _pay(company, paidAmount * 20 / 30);
     }
 
     function _pay(address receiver, uint256 amount) internal {

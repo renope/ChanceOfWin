@@ -2,10 +2,11 @@
 pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "./Tickets.sol";
 import "./PriceFeed.sol";
 import "./ShareFees.sol";
 
-contract Lottery is Ownable, ShareFees {
+contract Lottery is Tickets, Ownable, ShareFees {
     
     uint256 totalPrize;
     function _collect(uint256 amount) private {
@@ -34,6 +35,7 @@ contract Lottery is Ownable, ShareFees {
     }
 
     function buyTicket(uint16 numberOfTickets, address referral) public payable {
+        require(registered(referral),"Lottery: unregistered referral address");
         uint256 paidAmount = msg.value;
         require(paidAmount >= numberOfTickets * ticketPriceInWei() * 95 / 100, "Lottery: insufficient fee");
         _shareCommissions(paidAmount * 5 / 100, referral);

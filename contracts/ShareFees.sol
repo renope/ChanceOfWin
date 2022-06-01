@@ -13,6 +13,15 @@ abstract contract ShareFees is Ownable {
         company = 0x0cE446255506E92DF41614C46F1d6df9Cc969183;
     }
 
+    function _shareFees(uint256 paidAmount) internal {
+        if(referrals[msg.sender] != address(0)) {
+            _shareCommissions(paidAmount * 5 / 100, referrals[msg.sender]);
+            _shareFees25(paidAmount * 25 / 100);
+        } else {
+            _shareFees30(paidAmount * 30 / 100);
+        }
+    }
+
     function _shareFees30(uint256 paidAmount) internal {
         _pay(owner(), paidAmount * 5 / 30);
         _pay(team, paidAmount * 5 / 30);

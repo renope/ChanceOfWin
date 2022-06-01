@@ -7,11 +7,11 @@ import '@openzeppelin/contracts/utils/structs/EnumerableMap.sol';
 import '@openzeppelin/contracts/utils/structs/EnumerableSet.sol';
 
 contract Tickets is Ownable {
-    using EnumerableSet for EnumerableSet.UintSet;
+    using EnumerableSet for EnumerableSet.AddressSet;
     using EnumerableMap for EnumerableMap.UintToAddressMap;
 
     struct Layout {
-        address[] winners;
+        EnumerableSet.AddressSet winners;
         uint256 totalPrize;
         uint256 totalSupply;
         mapping(uint256 => address) ticketToOwner;
@@ -30,8 +30,12 @@ contract Tickets is Ownable {
     }
 
 
-    function winners() public view returns(address[] memory) {
-        return l.winners;
+    function winners() public view returns(address[] memory _winners) {
+        uint256 _numberOfWinners = l.winners.length();
+        _winners = new address[](_numberOfWinners);
+        for (uint256 index; index < _numberOfWinners; index++) {
+            _winners[index] = l.winners.at(index);
+        }
     }
 
     function totalPrize() public view returns(uint256) {

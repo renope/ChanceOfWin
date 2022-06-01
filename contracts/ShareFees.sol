@@ -13,25 +13,25 @@ abstract contract ShareFees is Ownable {
         company = 0x0cE446255506E92DF41614C46F1d6df9Cc969183;
     }
 
-    function _shareFees(uint256 paidAmount) internal {
+    function _shareFees(uint256 _30Percent) internal {
         if(referrals[msg.sender] == address(0)) {
-            _shareFees30(paidAmount * 30 / 100);
+            _shareFees30(_30Percent);
         } else {
-            _shareCommissions(paidAmount * 5 / 100, referrals[msg.sender]);
-            _shareFees25(paidAmount * 25 / 100);
+            _shareCommissions(_30Percent * 5 / 30, referrals[msg.sender]);
+            _shareFees25(_30Percent * 25 / 30);
         }
     }
 
-    function _shareFees30(uint256 paidAmount) internal {
-        _pay(owner(), paidAmount * 5 / 30);
-        _pay(team, paidAmount * 5 / 30);
-        _pay(company, paidAmount * 20 / 30);
+    function _shareFees30(uint256 _30Percent) internal {
+        _pay(owner(), _30Percent * 5 / 30);
+        _pay(team, _30Percent * 5 / 30);
+        _pay(company, _30Percent * 20 / 30);
     }
 
-    function _shareFees25(uint256 paidAmount) internal {
-        _pay(owner(), paidAmount * 5 / 25);
-        _pay(team, paidAmount * 5 / 25);
-        _pay(company, paidAmount * 20 / 25);
+    function _shareFees25(uint256 _25Percent) internal {
+        _pay(owner(), _25Percent * 5 / 25);
+        _pay(team, _25Percent * 5 / 25);
+        _pay(company, _25Percent * 20 / 25);
     }
 
     mapping(address => address) referrals;

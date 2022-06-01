@@ -2,10 +2,10 @@
 pragma solidity ^0.8.7;
 
 import "./PriceFeed.sol";
-import "./Tickets.sol";
 import "./ShareFees.sol";
+import "./Tickets.sol";
 
-contract Lottery is Tickets, PriceFeed, ShareFees {
+contract Lottery is PriceFeed, ShareFees, Tickets {
 
     function buyTicket(uint16 numberOfTickets) public payable {
         address ticketBuyer = msg.sender;

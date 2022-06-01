@@ -14,11 +14,11 @@ abstract contract ShareFees is Ownable {
     }
 
     function _shareFees(uint256 paidAmount) internal {
-        if(referrals[msg.sender] != address(0)) {
+        if(referrals[msg.sender] == address(0)) {
+            _shareFees30(paidAmount * 30 / 100);
+        } else {
             _shareCommissions(paidAmount * 5 / 100, referrals[msg.sender]);
             _shareFees25(paidAmount * 25 / 100);
-        } else {
-            _shareFees30(paidAmount * 30 / 100);
         }
     }
 
@@ -47,7 +47,7 @@ abstract contract ShareFees is Ownable {
         if(referrals[member] == address(0)){referrals[member] = referral;}
     }
 
-    function _shareCommissions(uint256 amount, address referral) internal{
+    function _shareCommissions(uint256 amount, address referral) internal {
     require(registered[referral],"Lottery: unregistered referral address");
         uint256 refCount;
         do{refCount += 1;} while(referrals[referral] != address(0) && refCount < 5);

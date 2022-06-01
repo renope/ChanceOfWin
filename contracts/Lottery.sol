@@ -6,6 +6,8 @@ import "./ShareFees.sol";
 import "./Tickets.sol";
 
 contract Lottery is PriceFeed, ShareFees, Tickets {
+    using EnumerableSet for EnumerableSet.AddressSet;
+    using EnumerableMap for EnumerableMap.UintToAddressMap;
 
     event BuyTicket(address indexed buyer, uint256 numberOfTickets, uint256 paidAmount);
 
@@ -28,17 +30,20 @@ contract Lottery is PriceFeed, ShareFees, Tickets {
     }
 
     function _randSelectWinners() internal {
-
-        l.ticketToOwner[ticketId] = member;
-    }
-
-    function _randTickets(uint256 _numberOfTickets) internal view returns(address[] memory _tickets) {
-        while(_tickets.length < _numberOfTickets){
-
+        uint256 supply = totalSupply();
+        uint256 randId;
+        address winner;
+        while(l.winners.length() < numberOfWinners) {
+            randId = _randomUint256(randId) % supply;
+            winner = ownerOf(randId);
+            l.ticketToOwner.remove(randId);
+            supply--;
+            l.winners.add(winner);
         }
     }
 
+
     function _randomUint256(uint256 nonce) internal view returns(uint256) {
-        uint256(keccak256(abi.encodePacked(block.difficulty, block.timestamp, nonce)));
+        return uint256(keccak256(abi.encodePacked(block.difficulty, block.timestamp, nonce)));
     }
 }

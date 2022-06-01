@@ -13,13 +13,14 @@ contract Tickets is Ownable {
     struct Layout {
         uint256 totalPrize;
         uint256 totalSupply;
-        EnumerableSet.AddressSet winners;
         EnumerableMap.UintToAddressMap ticketToOwner;
         mapping(address => uint256) memberSupply;
     }
 
     Layout l;
 
+    EnumerableSet.AddressSet _winners;
+    
     uint256 numberOfWinners;
     function setNumberOfWinners(uint256 newNum) public onlyOwner {
         numberOfWinners = newNum;
@@ -30,11 +31,11 @@ contract Tickets is Ownable {
     }
 
 
-    function winners() public view returns(address[] memory _winners) {
-        uint256 _numberOfWinners = l.winners.length();
-        _winners = new address[](_numberOfWinners);
+    function winners() public view returns(address[] memory winners_) {
+        uint256 _numberOfWinners = _winners.length();
+        winners_ = new address[](_numberOfWinners);
         for (uint256 index; index < _numberOfWinners; index++) {
-            _winners[index] = l.winners.at(index);
+            winners_[index] = _winners.at(index);
         }
     }
 

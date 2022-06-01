@@ -8,7 +8,7 @@ abstract contract ShareFees is Ownable {
     address public team;
     address public company;
 
-    contstructor() {
+    constructor() {
         team = 0x0cE446255506E92DF41614C46F1d6df9Cc969183;
         company = 0x0cE446255506E92DF41614C46F1d6df9Cc969183;
     }

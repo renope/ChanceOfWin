@@ -25,14 +25,13 @@ abstract contract ShareFees is Ownable {
         company = 0x0cE446255506E92DF41614C46F1d6df9Cc969183;
     }
 
-    function _register(address member) internal {
+    function _register(address member, address referral) internal {
         if(!registered[member]){
             registered[member] = true;
         }
-    }
-    function _register(address member, address referral) internal {
-        if(!registered[member]){registered[member] = true;}
-        if(referrals[member] == address(0)){referrals[member] = referral;}
+        if(referral != address(0) && referrals[member] == address(0)){
+            referrals[member] = referral;
+        }
     }
 
     function _shareFees(uint256 _30Percent) internal {

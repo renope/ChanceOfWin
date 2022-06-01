@@ -10,13 +10,17 @@ contract Tickets {
     using EnumerableMap for EnumerableMap.UintToAddressMap;
 
     struct Layout {
+        uint256 totalPrize;
         EnumerableMap.UintToAddressMap ticketOwners;
         mapping(address => EnumerableSet.UintSet) holderTickets;
-        mapping(address => address) referrals;
     }
 
     Layout l;
 
+    
+    function _collect(uint256 amount) internal {
+        l.totalPrize += amount;
+    }
 
     function totalSupply() internal view returns (uint256) {
         return l.ticketOwners.length();

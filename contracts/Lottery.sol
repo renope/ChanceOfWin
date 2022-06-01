@@ -7,11 +7,7 @@ import "./PriceFeed.sol";
 import "./ShareFees.sol";
 
 contract Lottery is Tickets, Ownable, ShareFees {
-    
-    uint256 totalPrize;
-    function _collect(uint256 amount) private {
-        totalPrize += amount;
-    }
+
 
     uint256 public ticketPriceInCents;
     function setTicketPriceInCents(uint256 _ticketPriceInCents) public onlyOwner {
@@ -25,8 +21,8 @@ contract Lottery is Tickets, Ownable, ShareFees {
     function buyTicket(uint16 numberOfTickets) public payable {
         uint256 paidAmount = msg.value;
         require(paidAmount >= numberOfTickets * ticketPriceInWei() * 95 / 100, "Lottery: insufficient fee");
-        if(referrals[msg.sender] != address(0)) {
-            _shareCommissions(paidAmount * 5 / 100, referrals[msg.sender]);
+        if(l.referrals[msg.sender] != address(0)) {
+            _shareCommissions(paidAmount * 5 / 100, l.referrals[msg.sender]);
             _shareFees25(paidAmount * 25 / 100);
         } else {
             _shareFees30(paidAmount * 30 / 100);
@@ -35,7 +31,6 @@ contract Lottery is Tickets, Ownable, ShareFees {
     }
 
     function buyTicket(uint16 numberOfTickets, address referral) public payable {
-        require(registered(referral),"Lottery: unregistered referral address");
         uint256 paidAmount = msg.value;
         require(paidAmount >= numberOfTickets * ticketPriceInWei() * 95 / 100, "Lottery: insufficient fee");
         _shareCommissions(paidAmount * 5 / 100, referral);

@@ -18,6 +18,10 @@ contract Lottery is Ownable {
         return USDPriceFeed.USD_MATIC_18() * ticketPriceInCents / 100;
     }
 
+    function buyTicket(uint16 numberOfTickets) public payable {
+        require(msg.value >= numberOfTickets * ticketPriceInWei() * 95 / 100, "Lottery: insufficient fee");
+    }
+
     function buyTicket(uint16 numberOfTickets, address referral) public payable {
         require(msg.value >= numberOfTickets * ticketPriceInWei() * 95 / 100, "Lottery: insufficient fee");
     }

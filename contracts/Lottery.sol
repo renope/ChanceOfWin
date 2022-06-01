@@ -6,6 +6,9 @@ import "./PriceFeed.sol";
 
 contract Lottery is Ownable {
     
+    address immutable public team = 0x0cE446255506E92DF41614C46F1d6df9Cc969183;
+    address immutable public company = 0x0cE446255506E92DF41614C46F1d6df9Cc969183;
+
     uint256 public ticketPriceInCents;
     function setTicketPriceInCents(uint256 _ticketPriceInCents) public onlyOwner {
         ticketPriceInCents = _ticketPriceInCents;

@@ -50,6 +50,10 @@ contract Tickets is Ownable {
         return l.memberSupply[member];
     }
 
+    function ownerOf(uint256 ticketId) public view returns(address) {
+        return l.ticketToOwner.get(ticketId);
+    }
+
 
     function _exists(uint256 ticketId) internal view returns (bool) {
         return ticketId < totalSupply();

@@ -8,7 +8,6 @@ import "./ShareFees.sol";
 
 contract Lottery is Tickets, Ownable, ShareFees {
 
-
     uint256 public ticketPriceInCents;
     function setTicketPriceInCents(uint256 _ticketPriceInCents) public onlyOwner {
         ticketPriceInCents = _ticketPriceInCents;

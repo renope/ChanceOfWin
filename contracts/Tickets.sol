@@ -24,7 +24,7 @@ contract Tickets is Ownable {
         mapping(address => uint256) memberSupply;
     }
 
-    Round l;
+    Round r;
 
     constructor() {
         numberOfWinners = 10;
@@ -40,19 +40,19 @@ contract Tickets is Ownable {
     }
 
     function totalPrize() public view returns(uint256) {
-        return l.totalPrize;
+        return r.totalPrize;
     }
 
     function totalSupply() internal view returns(uint256) {
-        return l.totalSupply;
+        return r.totalSupply;
     }
 
     function memberSupply(address member) public view returns(uint256) {
-        return l.memberSupply[member];
+        return r.memberSupply[member];
     }
 
     function ownerOf(uint256 ticketId) public view returns(address) {
-        return l.ticketToOwner.get(ticketId);
+        return r.ticketToOwner.get(ticketId);
     }
 
 
@@ -61,18 +61,18 @@ contract Tickets is Ownable {
     }
     
     function _collectInPrize(uint256 amount) internal {
-        l.totalPrize += amount;
+        r.totalPrize += amount;
     }
 
     function _purchaseTicket(address member, uint256 _numberOfTickets) internal {
         uint256 ticketId = totalSupply();
 
         for(uint256 index = 0; index < _numberOfTickets; index++){
-            l.ticketToOwner.set(ticketId, member);
+            r.ticketToOwner.set(ticketId, member);
             ticketId++;
         }
-        l.memberSupply[member] += _numberOfTickets;
-        l.totalSupply += _numberOfTickets;
+        r.memberSupply[member] += _numberOfTickets;
+        r.totalSupply += _numberOfTickets;
     }
 
 
@@ -86,7 +86,7 @@ contract Tickets is Ownable {
         while(_winners.length() < numberOfWinners) {
             randId = _randomUint256(randId) % supply;
             winner = ownerOf(randId);
-            l.ticketToOwner.remove(randId);
+            r.ticketToOwner.remove(randId);
             supply--;
             _winners.add(winner);
         }
@@ -101,6 +101,6 @@ contract Tickets is Ownable {
     }
 
     function _resetRound() internal {
-        delete l;
+        delete r;
     }
 }

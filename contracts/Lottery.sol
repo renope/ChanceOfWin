@@ -6,8 +6,6 @@ import "./Payments.sol";
 import "./Tickets.sol";
 
 contract Lottery is PriceFeed, Payments, Tickets {
-    using EnumerableSet for EnumerableSet.AddressSet;
-    using EnumerableMap for EnumerableMap.UintToAddressMap;
 
     event BuyTicket(address indexed buyer, uint256 numberOfTickets, uint256 paidAmount);
 

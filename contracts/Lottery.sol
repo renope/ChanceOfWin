@@ -27,5 +27,7 @@ contract Lottery is PriceFeed, Payments, Tickets {
 
     function trigger() public onlyOwner {
         _randSelectWinners();
+        _sharePrizes(winners(), totalPrize());
+        _resetRound();
     }
 }

@@ -28,6 +28,9 @@ abstract contract ShareFees is Ownable {
     mapping(address => address) referrals;
 
     function _shareCommissions(uint256 amount, address referral) internal returns(uint256 rest){
+        require()
+        uint256 refCount;
+        
     }
 
     function _pay(address receiver, uint256 amount) internal {

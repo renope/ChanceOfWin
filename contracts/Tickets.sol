@@ -17,14 +17,14 @@ contract Tickets is Ownable {
         numberOfWinners = newNum;
     }
 
-    struct Layout {
+    struct Round {
         uint256 totalPrize;
         uint256 totalSupply;
         EnumerableMap.UintToAddressMap ticketToOwner;
         mapping(address => uint256) memberSupply;
     }
 
-    Layout l;
+    Round l;
 
     constructor() {
         numberOfWinners = 10;

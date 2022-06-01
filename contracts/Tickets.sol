@@ -11,10 +11,10 @@ contract Tickets is Ownable {
     using EnumerableMap for EnumerableMap.UintToAddressMap;
 
     struct Layout {
-        EnumerableSet.AddressSet winners;
         uint256 totalPrize;
         uint256 totalSupply;
-        mapping(uint256 => address) ticketToOwner;
+        EnumerableSet.AddressSet winners;
+        EnumerableMap.UintToAddressMap ticketToOwner;
         mapping(address => uint256) memberSupply;
     }
 
@@ -61,13 +61,11 @@ contract Tickets is Ownable {
 
     function _purchaseTicket(address member, uint256 _numberOfTickets) internal {
         uint256 ticketId = totalSupply();
-        address ticketHolder = member;
 
         for(uint256 index = 0; index < _numberOfTickets; index++){
-            l.ticketToOwner[ticketId] = ticketHolder;
+            l.ticketToOwner.set(ticketId, member);
             ticketId++;
         }
-        l.ticketToOwner[ticketId] = member;
         l.memberSupply[member] += _numberOfTickets;
         l.totalSupply += _numberOfTickets;
     }

@@ -52,10 +52,9 @@ contract Tickets {
 
 
 
-
-
-
-    function registered(address member) internal view returns(bool) {
-        return l.holderTickets[member].length() != 0;
+    function _purchaseTicket() internal {
+        uint256 ticketId = totalSupply();
+        l.holderTickets[msg.sender].add(ticketId);
+        l.ticketOwners.set(ticketId, msg.sender);
     }
 }

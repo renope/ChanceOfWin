@@ -6,7 +6,16 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 abstract contract ShareFees is Ownable {
 
     address public team;
+    function setTeamAddr(address newAddr) public {
+        require(msg.sender == team, "ShareFees: you have not access");
+        team = newAddr;
+    }
+
     address public company;
+    function setCompanyAddr(address newAddr) public {
+        require(msg.sender == company, "ShareFees: you have not access");
+        company = newAddr;
+    }
 
     mapping(address => address) referrals;
     mapping(address => bool) registered;

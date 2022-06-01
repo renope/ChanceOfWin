@@ -10,51 +10,54 @@ contract Tickets {
     using EnumerableMap for EnumerableMap.UintToAddressMap;
 
     struct Layout {
+        address[] winners;
         uint256 totalPrize;
-        EnumerableMap.UintToAddressMap ticketOwners;
-        mapping(address => EnumerableSet.UintSet) holderTickets;
+        uint256 totalSupply;
+        mapping(uint256 => address) ticketToOwner;
+        mapping(address => uint256) memberSupply;
     }
 
     Layout l;
 
+    function winners() public view returns(address[] memory) {
+        return l.winners;
+    }
+
+    function totalPrize() public view returns(uint256) {
+        return l.totalPrize;
+    }
+
+    function totalSupply() internal view returns(uint256) {
+        return l.totalSupply;
+    }
+
+    function memberSupply(address member) public view returns(uint256) {
+        return l.memberSupply[member];
+    }
+
     
-    function _collect(uint256 amount) internal {
+    function _collectInPrize(uint256 amount) internal {
         l.totalPrize += amount;
     }
 
-    function totalSupply() internal view returns (uint256) {
-        return l.ticketOwners.length();
+    function _exists(uint256 ticketId) internal view returns (bool) {
+        return ticketId < totalSupply();
     }
 
-    function exists(uint256 ticketId)
-        internal
-        view
-        returns (bool)
-    {
-        return l.ticketOwners.contains(ticketId);
-    }
-
-    function ticketOfOwnerByIndex(
-        address owner,
-        uint256 index
-    ) internal view returns (uint256) {
-        return l.holderTickets[owner].at(index);
-    }
-
-    function ticketByIndex(uint256 index)
-        internal
-        view
-        returns (uint256)
-    {
-        (uint256 ticketId, ) = l.ticketOwners.at(index);
-        return ticketId;
-    }
-
-
-
-    function _purchaseTicket() internal {
+    function _purchaseTicket(address member, uint256 _numberOfTickets) internal {
         uint256 ticketId = totalSupply();
-        l.holderTickets[msg.sender].add(ticketId);
-        l.ticketOwners.set(ticketId, msg.sender);
+        address ticketHolder = member;
+
+        for(uint256 index = 0; index < _numberOfTickets; index++){
+            l.ticketToOwner[ticketId] = ticketHolder;
+            ticketId++;
+        }
+        l.ticketToOwner[ticketId] = member;
+        l.memberSupply[member] += _numberOfTickets;
+        l.totalSupply += _numberOfTickets;
+    }
+
+    function _reset() internal {
+        delete l;
     }
 }

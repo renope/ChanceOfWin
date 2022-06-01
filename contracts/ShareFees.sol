@@ -37,6 +37,16 @@ abstract contract ShareFees is Ownable {
     mapping(address => address) referrals;
     mapping(address => bool) registered;
 
+    function _register(address member) internal {
+        if(!registered[member]){
+            registered[member] = true;
+        }
+    }
+    function _register(address member, address referral) internal {
+        if(!registered[member]){registered[member] = true;}
+        if(referrals[member] == address(0)){referrals[member] = referral;}
+    }
+
     function _shareCommissions(uint256 amount, address referral) internal{
     require(registered[referral],"Lottery: unregistered referral address");
         uint256 refCount;

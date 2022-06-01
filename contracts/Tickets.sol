@@ -35,13 +35,13 @@ contract Tickets {
         return l.memberSupply[member];
     }
 
-    
-    function _collectInPrize(uint256 amount) internal {
-        l.totalPrize += amount;
-    }
 
     function _exists(uint256 ticketId) internal view returns (bool) {
         return ticketId < totalSupply();
+    }
+    
+    function _collectInPrize(uint256 amount) internal {
+        l.totalPrize += amount;
     }
 
     function _purchaseTicket(address member, uint256 _numberOfTickets) internal {

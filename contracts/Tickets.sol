@@ -80,6 +80,7 @@ contract Tickets is Ownable {
         uint256 supply = totalSupply();
         require(supply >= numberOfWinners,
             "Tickets: number of tickets has not been reached the qourum");
+        _resetWinners();
         uint256 randId;
         address winner;
         while(_winners.length() < numberOfWinners) {
@@ -95,7 +96,11 @@ contract Tickets is Ownable {
         return uint256(keccak256(abi.encodePacked(block.difficulty, block.timestamp, nonce)));
     }
 
-    function _reset() internal {
+    function _resetWinners() internal {
+        delete _winners;
+    }
+
+    function _resetRound() internal {
         delete l;
     }
 }

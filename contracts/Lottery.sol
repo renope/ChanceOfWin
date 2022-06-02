@@ -9,11 +9,15 @@ contract Lottery is PriceFeed, Payments, Tickets {
 
     event BuyTicket(address indexed buyer, uint256 numberOfTickets, uint256 paidAmount);
 
-    function buyTicket(uint256 numberOfTickets) public payable {
+    function startRound() public onlyOwner {
+        _startRound();
+    }
+
+    function buyTicket(uint256 numberOfTickets) public payable roundStarted {
         buyTicket(numberOfTickets, address(0));
     }
 
-    function buyTicket(uint256 numberOfTickets, address referral) public payable {
+    function buyTicket(uint256 numberOfTickets, address referral) public payable roundStarted {
         address ticketBuyer = msg.sender;
         uint256 paidAmount = msg.value;
         _checkPaidAmount(paidAmount, numberOfTickets);

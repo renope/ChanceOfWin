@@ -18,6 +18,7 @@ contract Tickets is Ownable {
     }
 
     struct Round {
+        bool hasStarted;
         uint256 totalPrize;
         uint256 totalSupply;
         EnumerableMap.UintToAddressMap ticketToOwner;
@@ -30,6 +31,14 @@ contract Tickets is Ownable {
         numberOfWinners = 10;
     }
 
+    function roundHasStarted() public view returns(bool) {
+        return r.hasStarted;
+    }
+
+    modifier roundStarted() {
+        require(roundHasStarted(), "Ticket: round has not started.");
+        _;
+    }
 
     function winners() public view returns(address[] memory winners_) {
         uint256 _numberOfWinners = _winners.length();
@@ -60,6 +69,10 @@ contract Tickets is Ownable {
         return ticketId < totalSupply();
     }
     
+    function _startRound() internal {
+        if(!r.hasStarted){r.hasStarted = true;}
+    }
+
     function _collectInPrize(uint256 amount) internal {
         r.totalPrize += amount;
     }

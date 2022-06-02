@@ -13,7 +13,7 @@ module.exports = {
       accounts: [`0x${PRIVATE_KEY}`],
     },
     polygonMumbai: {
-      url: `https://rpc-mumbai.maticvigil.com`,
+      url: `https://matic-mumbai.chainstacklabs.com`,
       accounts: [`0x${PRIVATE_KEY}`],
     },
     rinkeby: {
